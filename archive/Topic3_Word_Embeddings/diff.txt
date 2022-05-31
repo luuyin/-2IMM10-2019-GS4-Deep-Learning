@@ -1,0 +1,114 @@
+diff --git a/Topic1_Word_Embeddings/Answers.ipynb b/Topic1_Word_Embeddings/Answers.ipynb
+index 3e93330..d71fc35 100644
+--- a/Topic1_Word_Embeddings/Answers.ipynb
++++ b/Topic1_Word_Embeddings/Answers.ipynb
+@@ -91,7 +91,7 @@
+    ],
+    "source": [
+     "def get_co_occurrence_matrix(V,corpus):\n",
+-    "    V_matrix = np.zeros((V,V ))\n",
++    "    V_matrix = np.zeros((V,V - 1 ))\n",
+     "    for words in corpus:\n",
+     "        L = len(words)\n",
+     "        for index, word in enumerate(words):\n",
+@@ -136,7 +136,7 @@
+     "for word, i in tokenizer.word_index.items():    \n",
+     "    f.write(word)\n",
+     "    f.write(\" \")\n",
+-    "    f.write(\" \".join(map(str, list(vectors[i,1:]))))\n",
++    "    f.write(\" \".join(map(str, list(vectors[i,:]))))\n",
+     "    f.write(\"\\n\")\n",
+     "f.close()"
+    ]
+@@ -1312,67 +1312,6 @@
+    },
+    "outputs": [],
+    "source": [
+-    "print(w2v_skipgram.wv.most_similar(positive=['alice', 'rabbit'], negative=['hole']))\n",
+-    "\n",
+-    "print(w2v_skipgram.wv.most_similar_cosmul(positive=['alice', 'rabbit'], negative=['hole']))\n",
+-    "\n",
+-    "print(w2v_skipgram.wv.doesnt_match(\"alice rabbit dinah hole\".split()))\n",
+-    "\n",
+-    "\n",
+-    "print(w2v_skipgram.wv.similarity('dinah', 'rabbit'))"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "metadata": {
+-    "collapsed": true
+-   },
+-   "outputs": [],
+-   "source": [
+-    "f = open('analogy_alice.txt' ,'r')\n",
+-    "\n",
+-    "analogy = []\n",
+-    "for row in f:\n",
+-    "    row = row.replace(\"\\n\",\"\")\n",
+-    "    analogy.append(row.split(\" \"))"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "metadata": {
+-    "collapsed": true
+-   },
+-   "outputs": [],
+-   "source": [
+-    "from scipy import linalg\n",
+-    "from sklearn.metrics.pairwise import cosine_similarity\n",
+-    "\n",
+-    "def cos_sim(a, b):\n",
+-    "    sim = cosine_similarity([a],[b])\n",
+-    "    return sim[0][0] \n",
+-    "\n",
+-    "def get_mean(positive_words,negative_words):\n",
+-    "    sum = 0\n",
+-    "    if len(positive_words+negative_words) > 0:\n",
+-    "        for value in positive_words:\n",
+-    "            sum = sum + value\n",
+-    "        for value in negative_words:\n",
+-    "            sum = sum - value\n",
+-    "        return (sum/len(positive_words + negative_words))\n",
+-    "    else:\n",
+-    "        return None\n",
+-    "\n",
+-    "def get_values_words(words,model):\n",
+-    "    values = []\n",
+-    "    for word in words:\n",
+-    "        try:\n",
+-    "            values.append(model[word])\n",
+-    "        except KeyError:\n",
+-    "            continue\n",
+-    "    return values\n",
+-    "\n",
+     "def get_most_similar(model,topn,positive_words=[],negative_words=[]):\n",
+     "    most_similar = []\n",
+     "    values_words_positive = get_values_words(positive_words,model)\n",
+@@ -1447,22 +1386,7 @@
+     "collapsed": true
+    },
+    "outputs": [],
+-   "source": [
+-    "all = 0\n",
+-    "correct = 0\n",
+-    "for row in analogy:\n",
+-    "    all = all + 1\n",
+-    "    print(row)\n",
+-    "    options = get_most_similar(model=word2vec_pretrained,topn=4, positive_words=[row[0],row[2]],negative_words=[row[1]])\n",
+-    "    print(options)\n",
+-    "    if options != \"not in vocabulary\":\n",
+-    "        best = options[0][1]\n",
+-    "        if best == row[3]:\n",
+-    "            correct = correct + 1\n",
+-    "\n",
+-    "print(\"correct: \", correct)\n",
+-    "print(\"total: \", all)"
+-   ]
++   "source": []
+   }
+  ],
+  "metadata": {

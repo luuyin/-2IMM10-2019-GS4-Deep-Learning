@@ -1,0 +1,185 @@
+\documentclass[a4paper,twoside,10pt]{article}
+\usepackage{a4wide,graphicx,fancyhdr,amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+
+%----------------------- Macros and Definitions --------------------------
+
+\setlength\headheight{20pt}
+\addtolength\topmargin{-10pt}
+\addtolength\footskip{20pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ch}{\mathcal{CH}}
+
+\newcommand{\exercise}[2]{\noindent{\bf Question #1 (#2pt):} \\\\ }
+
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyhead[LO,RE]{\sffamily\bfseries\large Eindhoven University of Technology}
+	\fancyhead[RO,LE]{\sffamily\bfseries\large 2IMM10 Deep Learning}
+	\fancyfoot[LO,RE]{\sffamily\bfseries\large Department of Mathematics and Computer Science}
+	\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO,LE]{\sffamily\bfseries\large Eindhoven University of Technology}
+\fancyhead[LO,RE]{\sffamily\bfseries\large 2IMM10 Deep Learning}
+\fancyfoot[LO,RE]{\sffamily\bfseries\large Department of Mathematics and Computer Science}
+\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%-------------------------------- Title ----------------------------------
+
+\title{\vspace{-\baselineskip}\sffamily\bfseries Assignment 3 \\
+	\large Deadline: Friday, 12th June (23:59)}
+%\author{Puck Mulders \qquad Student number: 0737709 \\{\tt p.j.a.m.mulders@student.tue.nl}}
+
+\date{29th May, 2020}
+
+%--------------------------------- Text ----------------------------------
+
+\begin{document}
+	\maketitle
+	
+
+
+\section*{Question 1 -- Aspect-level Sentiment Classification (10pt)}
+
+Build a aspect-level classification model based on document-level and aspect-level data as proposed in:
+
+\begin{quote}
+R.~He, WS.~Lee, HT.~Ng, D.~Dahlmeier, \textit{Exploiting document knowledge for aspect-level sentiment classification},  2018 (https://arxiv.org/abs/1806.04346).
+\end{quote}
+
+\noindent
+Build an attention-based aspect-level sentiment classification model with Bidirectional Long Short Term Memory networks (BiLSTM).
+Your model shall include:
+\begin{itemize}
+    \item BiLSTM network that learns sentence representations from input sequences (Recommend to use Bidirectional provided by Keras to define the BiLSTM network).
+    \item Attention network that predicts sentiment label, given the representation weighted by the attention score.
+    \item Fully connected network that predicts sentiment label, given the representation weighted by the attention score.
+\end{itemize}
+Requirements:
+\begin{itemize}
+    \item You shall train your model based on transferring learning. That is, you need first train your doc-level model on document-level examples. Then the learned weights will be used to initialize aspect-level model and fine tune it on aspect-level examples. 
+    \item You shall use the alignment score function in attention network as same as the recommended paper. $f_{score}(h,t) =tanh(h^T W_a t)$.
+    \item You shall evaluate trained model on the provided test set and show the accuracy on test set.
+\end{itemize}
+Data Description:
+
+Document-level and aspect-level data sets are the same as practice-5.1.2 and can be download in:\url{https://surfdrive.surf.nl/files/index.php/s/AytwhaLUbIGRsCt}.
+The raw data set contains two domains: (1) Restaurant reviews; and (2) Electronics reviews. But please use $lt\_14$ as experimental data. You can use the preprocessing notebook in practice-5.1.2 to process raw data. 
+
+
+
+\section*{Question 2 -- Image Caption Generation (10pt)}
+
+Construct a Long-Short-Term-Memory (LSTM) network which takes an image representation obtained from a convolutional neural network (ConvNet) as input, and produces a caption describing the image.
+This task is based on: 
+%
+\begin{quote}
+Oriol Vinyals, Alexander Toshev, Samy Bengio, Dumitru Erhan, 
+\textit{Show and Tell: A Neural Image Caption Generator}, 
+CVPR, 2015.
+\url{https://arxiv.org/abs/1411.4555}
+\end{quote}
+%
+You can use the Jupyter notebook \verb!2IMM10_Assignment_3_1.ipynb!, which already downloads and loads the data, and provides some helper functions.
+You can write your code between all two consecutive occurrences of ``\verb!# ...!''.
+See the text cells in the notebook for additional information.
+	
+	
+\subsection*{Data: Flickr8k}
+
+The \emph{Flickr8k} dataset contains $8091$ RGB images and $5$ human-provided textual descriptions for each image (captions).
+For this task, the dataset has already been preprocessed:\footnote{The Jupyter notebook automatically downloads the data from \url{https://surfdrive.surf.nl/files/index.php/s/kOIDM5tQPzv6IID}. \textbf{Please don't distribute.}}
+\begin{itemize}
+\item All images have been rescaled to $128 \times 128$ RGB.
+\item Punctuation and special tokens have been removed from the captions.
+\item Words which occur less than $5$ times in the whole corpus have been removed.
+\item All words have been converted to lower case.
+\end{itemize}
+
+	
+	
+\subsection*{Task 2.1: Generate Neural Codes (1pt)}
+
+Generate ConvNet representations (neural codes) for all images in the Flickr8k dataset.
+To this end, use the last convolutional layer ('\emph{Conv\_1}') of \emph{MobileNetV2} pretrained on \emph{Imagenet}.\footnote{The pretrained MobileNetV2 can conveniently be downloaded within Keras.}
+This layer contains $4 \times 4 \times 1280$ features, yielding codes of length $20480$.
+	
+	
+\subsection*{Task 2.2: Analyze Captions (2pt)}
+
+Retrieve some information from the captions.
+In particular:
+\begin{itemize}
+\item Find and report the \emph{maximal caption length}.
+\item Construct a collection of all words occurring in the captions and count their occurrences. Report the $10$ most frequent words. Do you note a bias in the dataset?
+\item Include the special word '\_' (the stop word, signaling the end of the captions) in the collection of words.
+\item How many unique words are there in the corpus, including '\_'?
+\item Construct a mapping (dictionary) from words to integers as follows:
+\begin{itemize}
+\item Stop word '\_' $\rightarrow$  0
+\item Most frequent word $\rightarrow$  1
+\item Second most frequent word $\rightarrow$ 2
+\item \dots
+\end{itemize}
+\item Construct an inverse mapping (dictionary), which maps integers back to words.
+\end{itemize}
+	
+	
+\subsection*{Task 2.3: Train Model (3pt)}   
+
+Implement the model from the paper. 
+In particular:
+
+\begin{itemize}
+\item Embed both the image codes and each word in a $512$ dimensional space.
+\begin{itemize}
+\item For the image codes use a fully connected layer, mapping the codes of length $20480$ to $512$ features. This layer should be subject to training.
+\item Embed the integer encoded words using an \emph{Embedding} layer (which is essentially a lookup table) of length $512$. This layer should also be subject to training.
+\end{itemize}
+\item Use the image and caption embeddings as inputs to an LSTM as discussed in the paper. Use $500$ units for the LSTM.
+\item Use a fully connected layer with \emph{softmax} activation mapping the output of the LSTM to a distribution over words (in their integer encoding).
+\item How does the input and output need to be organized? For how many time steps $T$ should the LSTM be unrolled? For each time step, $t = 0, \dots, T-1$, which embedding should be input to the LSTM and what should be the target?
+\end{itemize}
+\noindent
+Train the model by minimizing \emph{crossentropy}.
+\begin{itemize}
+\item Use Adam with a learning rate $0.001$.
+\item Learn for maximal $100$ epochs. Use early stopping with \emph{patience} $1$, providing the separate validation set.
+\item Use dropout with rate $0.5$ for the LSTM.
+\item Evaluate and report the final training and validation loss.
+\item \textbf{Hint:} Use the sparse version of the crossentropy loss, in order to avoid memory issues.
+\end{itemize}
+
+
+\subsection*{Task 2.4: Generate Test Captions (4pt)}   
+
+Implement a greedy decoder model as described in the paper (``beam search with a beam size of $1$'').
+The decoder is akin to the trained model from Task 1.3.
+However, rather than providing image codes \emph{and} captions, the decoder takes only the image codes as input.
+\begin{itemize}
+\item Equip the decoder with the weights from the trained model.
+\item Use the decoder to predict captions for all test images.
+\item Show $10$ random test images and their predicted captions.
+Categorize the predictions as in Figure 5 in the paper.
+\item Compute and report the BLEU-1, BLEU-2, BLEU-3, and BLEU-4 scores over the test set.
+\item \textbf{Hint:} Use the \emph{nltk} package to compute the BLEU scores.
+\end{itemize}
+
+
+
+\section*{Question 3 -- Peer review (0pt)}
+
+Finally, each group member must write a single paragraph outlining their opinion on the work distribution within the group. Did every group member contribute equally? Did you split up tasks in a fair manner, or jointly worked through the exercises? Do you think that some members of your group deserve a different grade from others?
+	
+	
+\end{document}

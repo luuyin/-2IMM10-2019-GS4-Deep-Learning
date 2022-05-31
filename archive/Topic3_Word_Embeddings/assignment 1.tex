@@ -1,0 +1,77 @@
+\documentclass[a4paper,twoside,11pt]{article}
+\usepackage{a4wide,graphicx,fancyhdr,amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+
+%----------------------- Macros and Definitions --------------------------
+
+\setlength\headheight{20pt}
+\addtolength\topmargin{-10pt}
+\addtolength\footskip{20pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ch}{\mathcal{CH}}
+
+\newcommand{\exercise}[2]{\noindent{\bf Question #1 (#2pt):} \\\\ }
+
+\fancypagestyle{plain}{%
+\fancyhf{}
+\fancyhead[LO,RE]{\sffamily\bfseries\large Eindhoven University of Technology}
+\fancyhead[RO,LE]{\sffamily\bfseries\large 2IMM10 Recommender Systems}
+\fancyfoot[LO,RE]{\sffamily\bfseries\large Department of Mathematics and Computer Science}
+\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO,LE]{\sffamily\bfseries\large Eindhoven University of Technology}
+\fancyhead[LO,RE]{\sffamily\bfseries\large 2IMM10 Recommender Systems}
+\fancyfoot[LO,RE]{\sffamily\bfseries\large Department of Mathematics and Computer Science}
+\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%-------------------------------- Title ----------------------------------
+
+\title{\vspace{-\baselineskip}\sffamily\bfseries Assignment 1 \\
+\large Deadline: Thursday, 9th May (23:59)}
+
+
+\date{April 30, 2019}
+
+%--------------------------------- Text ----------------------------------
+
+\begin{document}
+\maketitle
+
+
+\exercise{1}{5} Build word embeddings with a Keras implementation where the embedding vector is of length 50, 150 and 300. Use the Alice in Wonderland text book for training. Use a window size of $2$ to train the embeddings (\emph{window\texttt{\_}size} in the jupyter notebook).
+\begin{enumerate}
+\item Using the CBOW model.
+\item Using the Skipgram model.
+\item Analyze the different word embeddings:
+\begin{itemize}
+\item Implement your own function to perform the analogy task with\footnotemark. Do not use existing libraries for this task such as Gensim. Your function should be able to answer whether an analogy as in example \ref{analogy} is true. \footnotetext{Mikolov et al., (2013), Distributed Representation of Words and Phrases and their Compositionality. Check the introduction (\url{https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf})}
+\begin{align}
+\begin{split}
+&\text{A king is to a queen as a man is to a woman} \\
+&v_{\text{king}} - v_\text{queen} + v_\text{woman} = v_\text{man} 
+\end{split}
+\label{analogy}
+\end{align} 
+\item Compare the performance on the analogy task between the word embeddings that you have trained.
+\item Visualize your results and interpret the results.
+\end{itemize}
+\item Discuss:
+\begin{itemize}
+\item What are the main advantages of CBOW and Skipgram?
+\item What are the main drawbacks of CBOW and Skipgram?
+\end{itemize}
+\end{enumerate}
+
+\exercise{2}{0}{Peer Review paragraph (0 points)}
+Finally, each group member must write a single paragraph outlining their opinion on the work distribution within the group. Did every group member contribute equally? Did you split up tasks in a fair manner, or jointly worked through the exercises. Do you think that some members of your group deserve a different grade from others?
+\end{document}

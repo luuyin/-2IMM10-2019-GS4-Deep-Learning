@@ -1,0 +1,77 @@
+\documentclass[a4paper,twoside,11pt]{article}
+\usepackage{a4wide,graphicx,fancyhdr,amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+
+%----------------------- Macros and Definitions --------------------------
+
+\setlength\headheight{20pt}
+\addtolength\topmargin{-10pt}
+\addtolength\footskip{20pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ch}{\mathcal{CH}}
+
+\newcommand{\exercise}[2]{\noindent{\bf Question #1 (#2pt):} \\\\ }
+
+\fancypagestyle{plain}{%
+\fancyhf{}
+\fancyhead[LO,RE]{\sffamily\bfseries\large Eindhoven University of Technology}
+\fancyhead[RO,LE]{\sffamily\bfseries\large 2IMM10 Deep Learning}
+\fancyfoot[LO,RE]{\sffamily\bfseries\large Department of Mathematics and Computer Science}
+\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO,LE]{\sffamily\bfseries\large Eindhoven University of Technology}
+\fancyhead[LO,RE]{\sffamily\bfseries\large 2IMM10 Deep Learning}
+\fancyfoot[LO,RE]{\sffamily\bfseries\large Department of Mathematics and Computer Science}
+\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%-------------------------------- Title ----------------------------------
+
+\title{\vspace{-\baselineskip}\sffamily\bfseries Assignment 1 \\
+\large Deadline: Friday, 15th May (23:59)}
+
+
+\date{May 1, 2020}
+
+%--------------------------------- Text ----------------------------------
+
+\begin{document}
+\maketitle
+
+
+\exercise{1 - Keras implementation}{10} Build word embeddings with a Keras implementation where the embedding vector is of length 50, 150 and 300. Use the Alice in Wonderland text book (\texttt{alice.txt}) for training . Use a window size of 2 to train the embeddings (\texttt{window\_size} in the jupyter notebook). 
+\begin{enumerate}
+\item Build word embeddings of length 50, 150 and 300 using the Skipgram model
+\item Build word embeddings of length 50, 150 and 300 using CBOW model
+\item Analyze the different word embeddings:
+\begin{itemize}
+\item Implement your own function to perform the analogy task as explained in \footnotemark. Use the same distance metric as in the paper. Do not use existing libraries for this task such as Gensim. 
+Your function should be able to answer whether an analogy as in example \ref{analogy} is true. \footnotetext{Mikolov, Tomas, et al. "Efficient estimation of word representations in vector space." arXiv preprint arXiv:1301.3781 (2013). (\url{https://arxiv.org/abs/1301.3781})}
+\begin{align}
+\begin{split}
+&\text{A king is to a queen as a man is to a woman} \\
+&e_{\text{king}} - e_\text{queen} + e_\text{woman} \approx e_\text{man} 
+\end{split}
+\label{analogy}
+\end{align} , where $e_x$ denotes the embedding $e$ of word $x$. We want to find the word $p$ in the vocabulary, where the embedding of $p$ ($e_p$) is the closest to the predicted embedding (i.e. result of the formula). Then, we can check if $p$ is the same word as the true word ("man" in example \ref{analogy}).  
+\item Give at least 5 different  examples of analogies.
+\item Compare the performance on the analogy tasks between the word embeddings and briefly discuss your results.
+\end{itemize}
+\item Discuss:
+\begin{itemize}
+\item Given the same number of sentences as input, CBOW and Skipgram arrange the data into different number of training samples. Which one has more and why?
+\end{itemize}
+\end{enumerate}
+
+\exercise{2 - Peer review}{0}
+Finally, each group member must write a single paragraph outlining their opinion on the work distribution within the group. Did every group member contribute equally? Did you split up tasks in a fair manner, or jointly worked through the exercises? Do you think that some members of your group deserve a different grade from others?
+\end{document}

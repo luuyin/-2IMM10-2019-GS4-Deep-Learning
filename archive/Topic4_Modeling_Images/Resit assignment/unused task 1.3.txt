@@ -1,0 +1,16 @@
+\subsection*{Task 1.3: Fine-tuning the VGG19 network}
+The method of using neural codes for image retrieval relies heavily on the fact that the original neural network (VGG19 in our case) was trained on a dataset (ImageNet) similar to the one we are doing image retrieval on (Caltech256). But both datasets are still of a slightly different nature. We might be able to improve the image retrieval scores on Caltech256 if we fine-tune the VGG19-model with a dataset similar to Caltech256.
+
+In this task, we will try to improve image retrieval on the last 56 classes of Caltech256, by fine-tuning a VGG19 model on the first 200 classes of Caltech256. We thus ensure that our image retrieval evaluation is fair, making sure that the VGG19 model has never seen the first 56 classes before.
+
+\begin{itemize}
+  \item[a)] Split Caltech256 in two: the first 200 classes (alphabetically) and the remaining 56. Then fine-tune a VGG19 model as follows:
+  \begin{itemize}
+    \item Load a VGG19 model in Keras, pre-trained on ImageNet, and remove the final 1000d softmax layer (i.e. keep all but the last layer)
+    \item Append a new 200d softmax layer.
+    \item Fine-tune (train) the model for classification on the first 200 classes of Caltech256. \emph{Some hints: use a much smaller learning rate than usual, such that you do not disrupt the pre-trained weights too much. Fix the parameters of the first few blocks of VGG19, i.e. make them untrainable. Check \url{https://keras.io/applications/} for some examples of fine-tuning.}
+    \item Show that you reach a reasonable classification accuracy, without overfitting.
+  \end{itemize}
+  \item[b)] Use the fine-tuned VGG19 model to obtain neural codes for the remaining 56 classes of Caltech 256, and save them to a Pickle file.
+  \item[c)] Compute the image retrieval score...tbc
+\end{itemize}
